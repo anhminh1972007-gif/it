@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danh Sách Sản Phẩm Gia Dụng - Minh Store</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    .filter-panel { background: #fff; border-radius: 10px; border: 1px solid #e2e8f0; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .filter-panel h4 { font-size: 14.5px; font-weight: 800; color: #0f172a; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #f1f5f9; }
+    .catalog-layout { display: flex; gap: 24px; align-items: flex-start; padding: 20px 0 40px; }
+    .catalog-sidebar { width: 260px; flex-shrink: 0; }
+    .catalog-main { flex: 1; min-width: 0; }
+    .breadcrumb-bar { font-size: 13px; color: #64748b; margin-bottom: 18px; padding-top: 10px; }
+    .breadcrumb-bar a { color: #475569; text-decoration: none; }
+    .breadcrumb-bar a:hover { color: #d70018; }
+    .sort-bar { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 12px 18px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 20px; font-size: 13.5px; }
+  </style>
+</head>
+<body>
+  <div id="minhGlobalToast" class="minh-toast-container"></div>
+
+  <div class="cps-header-wrap">
+    <div class="cps-top-strip">
+      <div class="container">
+        <div>
+          <span>✓ Xuất hóa đơn VAT</span>
+          <span style="margin: 0 8px; opacity: 0.5;">•</span>
+          <span>🚚 Giao nhanh 2H - Miễn phí đơn từ 300K</span>
+          <span style="margin: 0 8px; opacity: 0.5;">•</span>
+          <span>🛡️ Hàng chính hãng 100% - Bảo hành 24T</span>
+        </div>
+        <div>
+          <span>📍 CS1: 104 Nguyễn Văn Trỗi • CS2: 18A/1 Cộng Hòa, TP.HCM</span>
+          <span style="margin: 0 8px; opacity: 0.5;">•</span>
+          <span>📞 Hotline: <strong>0338.677.377</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <header class="cps-header-main">
+      <div class="container cps-header-flex">
+        <a href="index.html" class="cps-logo">
+          <div class="cps-logo-badge">M</div>
+          <div>MINH STORE</div>
+        </a>
+
+        <a href="products.html" class="cps-btn-cat" style="background: rgba(255,255,255,0.25);">
+          <span>☰</span>
+          <span>Danh mục</span>
+        </a>
+
+        <div class="cps-search-box">
+          <form action="products.html" method="GET">
+            <input type="text" name="q" placeholder="Bạn muốn tìm đồ gia dụng gì? (Nồi chiên, robot hút bụi...)">
+            <button type="submit">🔍</button>
+          </form>
+        </div>
+
+        <a href="tel:0338677377" class="cps-action-btn" style="display: none; @media(min-width: 900px){ display: flex; }">
+          <span>📞</span>
+          <span>0338.677.377</span>
+        </a>
+
+        <a href="cart.html" class="cps-action-btn">
+          <span>🛒</span>
+          <span>Giỏ hàng (0)</span>
+        </a>
+
+        <a href="login.html" class="cps-action-btn" style="background: #ffffff; color: var(--primary-red); font-weight: 800;">
+          <span>👤</span>
+          <span>Đăng nhập</span>
+        </a>
+      </div>
+    </header>
+  </div>
+
+  <main class="container">
+    <div class="breadcrumb-bar">
+      <a href="index.html">Trang chủ</a> &nbsp;/&nbsp; 
+      <strong style="color: #0f172a;">Tất cả sản phẩm thiết bị gia dụng (38 mặt hàng)</strong>
+    </div>
+
+    <div class="catalog-layout">
+      <!-- SIDEBAR BỘ LỌC ĐA CHIỀU CHUYÊN DỤNG -->
+      <aside class="catalog-sidebar">
+        <div class="filter-panel">
+          <h4>📂 Phân Loại Ngành Hàng</h4>
+          <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+            <input type="radio" name="cat_filter" class="cat-filter-radio" value="ALL" checked> Tất cả ngành hàng
+          </label>
+          
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="radio" name="cat_filter" class="cat-filter-radio" value="KITCHEN"> Thiết Bị Nhà Bếp
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="radio" name="cat_filter" class="cat-filter-radio" value="CLEANING"> Chăm Sóc &amp; Vệ Sinh
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="radio" name="cat_filter" class="cat-filter-radio" value="AIR_WATER"> Lọc Khí &amp; Lọc Nước
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="radio" name="cat_filter" class="cat-filter-radio" value="UTENSILS"> Dụng Cụ Nhà Bếp
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="radio" name="cat_filter" class="cat-filter-radio" value="SMART_HOME"> Gia Dụng Thông Minh
+      </label>
+        </div>
+
+        <div class="filter-panel">
+          <h4>💰 Khoảng Giá</h4>
+          <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: #475569;">
+            <label><input type="radio" name="price_range" value="ALL" checked> Tất cả mức giá</label>
+            <label><input type="radio" name="price_range" value="under_1m"> Dưới 1 triệu</label>
+            <label><input type="radio" name="price_range" value="1m_3m"> Từ 1 - 3 triệu</label>
+            <label><input type="radio" name="price_range" value="3m_7m"> Từ 3 - 7 triệu</label>
+            <label><input type="radio" name="price_range" value="above_7m"> Trên 7 triệu</label>
+          </div>
+        </div>
+
+        <div class="filter-panel">
+          <h4>🏢 Thương Hiệu (21)</h4>
+          <div style="max-height: 260px; overflow-y: auto;">
+            
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="checkbox" class="brand-filter-cb" value="Bear"> Bear
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="checkbox" class="brand-filter-cb" value="Bluestone"> Bluestone
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="checkbox" class="brand-filter-cb" value="Coway"> Coway
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="checkbox" class="brand-filter-cb" value="Cuckoo"> Cuckoo
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="checkbox" class="brand-filter-cb" value="Daikin"> Daikin
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="checkbox" class="brand-filter-cb" value="Dyson"> Dyson
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="checkbox" class="brand-filter-cb" value="Ecovacs Robotics"> Ecovacs Robotics
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="checkbox" class="brand-filter-cb" value="Electrolux"> Electrolux
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="checkbox" class="brand-filter-cb" value="Elmich"> Elmich
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="checkbox" class="brand-filter-cb" value="Hafele"> Hafele
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="checkbox" class="brand-filter-cb" value="Kaadas"> Kaadas
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="checkbox" class="brand-filter-cb" value="Kangaroo"> Kangaroo
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="checkbox" class="brand-filter-cb" value="Lock&amp;Lock"> Lock&amp;Lock
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="checkbox" class="brand-filter-cb" value="Panasonic"> Panasonic
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="checkbox" class="brand-filter-cb" value="Philips"> Philips
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="checkbox" class="brand-filter-cb" value="Roborock"> Roborock
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="checkbox" class="brand-filter-cb" value="Sharp"> Sharp
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="checkbox" class="brand-filter-cb" value="Sunhouse Mama"> Sunhouse Mama
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="checkbox" class="brand-filter-cb" value="Tefal"> Tefal
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="checkbox" class="brand-filter-cb" value="Toshiba"> Toshiba
+      </label>
+      <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 8px; cursor: pointer;">
+        <input type="checkbox" class="brand-filter-cb" value="Xiaomi"> Xiaomi
+      </label>
+          </div>
+        </div>
+      </aside>
+
+      <!-- DANH SÁCH SẢN PHẨM DẠNG LƯỚI -->
+      <section class="catalog-main">
+        <div class="sort-bar">
+          <div>
+            Đang hiển thị <strong id="visibleCount" style="color: #d70018;">38</strong> sản phẩm
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="color: #64748b;">Sắp xếp theo:</span>
+            <select id="sortSelect" onchange="applySorting()" style="padding: 6px 14px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; background: #fff; cursor: pointer;">
+              <option value="featured">Nổi bật nhất</option>
+              <option value="price_asc">Giá: Thấp đến Cao</option>
+              <option value="price_desc">Giá: Cao đến Thấp</option>
+              <option value="name_asc">Tên: A - Z</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="products-grid" id="productsGrid">
+          
+      <article class="product-card" data-category="KITCHEN" data-price="2890000" data-brand="Philips">
+        <div class="card-top">
+          <span class="discount-badge">-33%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/air_fryer.jpg" alt="Nồi Chiên Không Dầu Philips XXL 7.2L HD9280" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Philips</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Nồi Chiên Không Dầu Philips XXL 7.2L HD9280">Nồi Chiên Không Dầu Philips XXL 7.2L HD9280</a>
+          </h3>
+          <div class="specs-preview">Dung tích 7.2L, Công suất 2000W, Công nghệ Rapid Air giòn rụm giảm 90% d...</div>
+          <div class="price-box">
+            <span class="price-current">2.890.000đ</span>
+            <span class="price-old">4.310.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 481.667đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="CLEANING" data-price="11490000" data-brand="Ecovacs Robotics">
+        <div class="card-top">
+          <span class="discount-badge">-28%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/robot_vacuum.jpg" alt="Robot Hút Bụi Lau Nhà Ecovacs Deebot T20 Omni" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Ecovacs Robotics</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Robot Hút Bụi Lau Nhà Ecovacs Deebot T20 Omni">Robot Hút Bụi Lau Nhà Ecovacs Deebot T20 Omni</a>
+          </h3>
+          <div class="specs-preview">Trạm sạc tự giặt giẻ nước nóng 55°C, sấy khô khí nóng, lực hút 6000Pa cự...</div>
+          <div class="price-box">
+            <span class="price-current">11.490.000đ</span>
+            <span class="price-old">15.960.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 1.915.000đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="AIR_WATER" data-price="4190000" data-brand="Xiaomi">
+        <div class="card-top">
+          <span class="discount-badge">-30%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/air_purifier.jpg" alt="Máy Lọc Không Khí Xiaomi Smart Air Purifier 4 Pro" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Xiaomi</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Máy Lọc Không Khí Xiaomi Smart Air Purifier 4 Pro">Máy Lọc Không Khí Xiaomi Smart Air Purifier 4 Pro</a>
+          </h3>
+          <div class="specs-preview">Màng lọc HEPA 5 lớp lọc sạch 99.97% bụi mịn PM2.5, màn hình OLED cảm ứng...</div>
+          <div class="price-box">
+            <span class="price-current">4.190.000đ</span>
+            <span class="price-old">5.990.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 698.333đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="KITCHEN" data-price="5490000" data-brand="Sunhouse Mama">
+        <div class="card-top">
+          <span class="discount-badge">-35%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/induction_cooker.jpg" alt="Bếp Từ Đôi Cảm Ứng Inverter Sunhouse Mama MMB9100VE" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Sunhouse Mama</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Bếp Từ Đôi Cảm Ứng Inverter Sunhouse Mama MMB9100VE">Bếp Từ Đôi Cảm Ứng Inverter Sunhouse Mama MMB9100VE</a>
+          </h3>
+          <div class="specs-preview">Mặt kính Schott Ceran vát cạnh sang trọng, mâm từ đồng nguyên chất, tính...</div>
+          <div class="price-box">
+            <span class="price-current">5.490.000đ</span>
+            <span class="price-old">8.450.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 915.000đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="KITCHEN" data-price="5990000" data-brand="Philips">
+        <div class="card-top">
+          <span class="discount-badge">-25%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/slow_juicer.jpg" alt="Máy Ép Chậm Trái Cây &amp; Hoa Quả Kuvings Cold-Press C7000" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Philips</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Máy Ép Chậm Trái Cây &amp; Hoa Quả Kuvings Cold-Press C7000">Máy Ép Chậm Trái Cây &amp; Hoa Quả Kuvings Cold-Press C7000</a>
+          </h3>
+          <div class="specs-preview">Công nghệ ép lạnh trục vít 60 vòng/phút, giữ nguyên 100% vitamin và enzy...</div>
+          <div class="price-box">
+            <span class="price-current">5.990.000đ</span>
+            <span class="price-old">7.990.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 998.333đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="AIR_WATER" data-price="6890000" data-brand="Philips">
+        <div class="card-top">
+          <span class="discount-badge">-12%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/water_purifier.jpg" alt="Máy Lọc Nước RO Hydrogen 10 Lõi Philips AUT3015" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Philips</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Máy Lọc Nước RO Hydrogen 10 Lõi Philips AUT3015">Máy Lọc Nước RO Hydrogen 10 Lõi Philips AUT3015</a>
+          </h3>
+          <div class="specs-preview">Công nghệ RO Vortex khử clo và kim loại nặng, bù khoáng kiềm Hydrogen tư...</div>
+          <div class="price-box">
+            <span class="price-current">6.890.000đ</span>
+            <span class="price-old">7.830.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 1.148.333đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="UTENSILS" data-price="2690000" data-brand="Tefal">
+        <div class="card-top">
+          <span class="discount-badge">-10%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/cookware_set.jpg" alt="Bộ Nồi Chảo Inox 304 Cao Cấp 5 Món Tefal Ingenio Emotion" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Tefal</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Bộ Nồi Chảo Inox 304 Cao Cấp 5 Món Tefal Ingenio Emotion">Bộ Nồi Chảo Inox 304 Cao Cấp 5 Món Tefal Ingenio Emotion</a>
+          </h3>
+          <div class="specs-preview">Inox 304 tiêu chuẩn Châu Âu, đáy từ 3 lớp đúc nhiệt, cán rời thông minh ...</div>
+          <div class="price-box">
+            <span class="price-current">2.690.000đ</span>
+            <span class="price-old">2.990.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 448.333đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="SMART_HOME" data-price="7490000" data-brand="Xiaomi">
+        <div class="card-top">
+          <span class="discount-badge">-8%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/smart_lock.jpg" alt="Khóa Cửa Điện Tử Thông Minh Nhận Diện Khuôn Mặt Xiaomi Face ID X" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Xiaomi</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Khóa Cửa Điện Tử Thông Minh Nhận Diện Khuôn Mặt Xiaomi Face ID X">Khóa Cửa Điện Tử Thông Minh Nhận Diện Khuôn Mặt Xiaomi Face ID X</a>
+          </h3>
+          <div class="specs-preview">Mở khóa 3D Face ID, vân tay bán dẫn FPC Thụy Điển, mã số chống nhìn trộm...</div>
+          <div class="price-box">
+            <span class="price-current">7.490.000đ</span>
+            <span class="price-old">8.140.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 1.248.333đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="KITCHEN" data-price="4990000" data-brand="Philips">
+        <div class="card-top">
+          <span class="discount-badge">-20%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/rice_cooker.jpg" alt="Nồi Cơm Điện Cao Tần IH Thông Minh Zojirushi Takumi 1.8L" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Philips</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Nồi Cơm Điện Cao Tần IH Thông Minh Zojirushi Takumi 1.8L">Nồi Cơm Điện Cao Tần IH Thông Minh Zojirushi Takumi 1.8L</a>
+          </h3>
+          <div class="specs-preview">Gia nhiệt cảm ứng từ IH đa chiều, lòng nồi tráng bạch kim phủ chống dính...</div>
+          <div class="price-box">
+            <span class="price-current">4.990.000đ</span>
+            <span class="price-old">6.240.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 831.667đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="KITCHEN" data-price="1890000" data-brand="Lock&amp;Lock">
+        <div class="card-top">
+          <span class="discount-badge">-24%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/locknlock_ejf357.jpg" alt="Nồi Chiên Không Dầu Điện Tử Lock&amp;Lock 5.2L EJF357BLK" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Lock&amp;Lock</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Nồi Chiên Không Dầu Điện Tử Lock&amp;Lock 5.2L EJF357BLK">Nồi Chiên Không Dầu Điện Tử Lock&amp;Lock 5.2L EJF357BLK</a>
+          </h3>
+          <div class="specs-preview">Công suất 1800W, công nghệ chiên nướng chân không Rapid Air 360 độ, lòng...</div>
+          <div class="price-box">
+            <span class="price-current">1.890.000đ</span>
+            <span class="price-old">2.490.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 315.000đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="KITCHEN" data-price="3990000" data-brand="Tefal">
+        <div class="card-top">
+          <span class="discount-badge">-27%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/tefal_fw201815.jpg" alt="Nồi Chiên Không Dầu Hơi Nước Tefal Steam Airfryer 3in1 FW201815" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Tefal</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Nồi Chiên Không Dầu Hơi Nước Tefal Steam Airfryer 3in1 FW201815">Nồi Chiên Không Dầu Hơi Nước Tefal Steam Airfryer 3in1 FW201815</a>
+          </h3>
+          <div class="specs-preview">Dung tích khủng 6.5L, tích hợp chức năng Chiên - Hấp - Nướng 3 trong 1, ...</div>
+          <div class="price-box">
+            <span class="price-current">3.990.000đ</span>
+            <span class="price-old">5.470.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 665.000đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="KITCHEN" data-price="1290000" data-brand="Sunhouse Mama">
+        <div class="card-top">
+          <span class="discount-badge">-30%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/sunhouse_shd4086.png" alt="Nồi Chiên Không Dầu Sunhouse Mama 6.0L SHD4086" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Sunhouse Mama</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Nồi Chiên Không Dầu Sunhouse Mama 6.0L SHD4086">Nồi Chiên Không Dầu Sunhouse Mama 6.0L SHD4086</a>
+          </h3>
+          <div class="specs-preview">Dung tích 6L, công suất 1700W, điều khiển núm xoay tiện lợi, vỏ inox 304...</div>
+          <div class="price-box">
+            <span class="price-current">1.290.000đ</span>
+            <span class="price-old">1.840.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 215.000đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="KITCHEN" data-price="790000" data-brand="Bear">
+        <div class="card-top">
+          <span class="discount-badge">-31%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/bear_airfryer.jpg" alt="Nồi Chiên Không Dầu Mini Bear 3.5L QZG-E12H1" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Bear</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Nồi Chiên Không Dầu Mini Bear 3.5L QZG-E12H1">Nồi Chiên Không Dầu Mini Bear 3.5L QZG-E12H1</a>
+          </h3>
+          <div class="specs-preview">Thiết kế retro nhỏ gọn xinh xắn, lòng nồi phủ men chống dính siêu bền, p...</div>
+          <div class="price-box">
+            <span class="price-current">790.000đ</span>
+            <span class="price-old">1.140.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 131.667đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="KITCHEN" data-price="8490000" data-brand="Hafele">
+        <div class="card-top">
+          <span class="discount-badge">-29%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/hafele_induction.jpg" alt="Bếp Từ Đôi Cảm Ứng Hafele HC-I2732A (536.04.244)" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Hafele</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Bếp Từ Đôi Cảm Ứng Hafele HC-I2732A (536.04.244)">Bếp Từ Đôi Cảm Ứng Hafele HC-I2732A (536.04.244)</a>
+          </h3>
+          <div class="specs-preview">Mặt kính Schott Ceran vát cạnh xuất xứ Đức, mâm từ EGO tự nhận diện đáy ...</div>
+          <div class="price-box">
+            <span class="price-current">8.490.000đ</span>
+            <span class="price-old">11.960.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 1.415.000đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="KITCHEN" data-price="3490000" data-brand="Kangaroo">
+        <div class="card-top">
+          <span class="discount-badge">-30%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/kangaroo_kg851i.jpg" alt="Bếp Từ Đôi Inverter Kangaroo KG851i" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Kangaroo</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Bếp Từ Đôi Inverter Kangaroo KG851i">Bếp Từ Đôi Inverter Kangaroo KG851i</a>
+          </h3>
+          <div class="specs-preview">Công nghệ Inverter tiết kiệm 35% điện năng, mặt kính Crystal chịu nhiệt ...</div>
+          <div class="price-box">
+            <span class="price-current">3.490.000đ</span>
+            <span class="price-old">4.990.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 581.667đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="KITCHEN" data-price="1150000" data-brand="Bluestone">
+        <div class="card-top">
+          <span class="discount-badge">-23%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/bluestone_induction.jpg" alt="Bếp Từ Đơn Cảm Ứng Siêu Mỏng Bluestone ICB-6818" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Bluestone</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Bếp Từ Đơn Cảm Ứng Siêu Mỏng Bluestone ICB-6818">Bếp Từ Đơn Cảm Ứng Siêu Mỏng Bluestone ICB-6818</a>
+          </h3>
+          <div class="specs-preview">Độ dày chỉ 4cm siêu mỏng hiện đại, công suất 2100W, mặt kính Ceramic chố...</div>
+          <div class="price-box">
+            <span class="price-current">1.150.000đ</span>
+            <span class="price-old">1.490.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 191.667đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="KITCHEN" data-price="6990000" data-brand="Cuckoo">
+        <div class="card-top">
+          <span class="discount-badge">-26%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/cuckoo_rice_cooker.png" alt="Nồi Cơm Điện Cao Tần Cuckoo 1.08L CRP-LHTR0610FW" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Cuckoo</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Nồi Cơm Điện Cao Tần Cuckoo 1.08L CRP-LHTR0610FW">Nồi Cơm Điện Cao Tần Cuckoo 1.08L CRP-LHTR0610FW</a>
+          </h3>
+          <div class="specs-preview">Áp suất kép Twin Pressure đỉnh cao Hàn Quốc, lòng nồi inox Eco Stainless...</div>
+          <div class="price-box">
+            <span class="price-current">6.990.000đ</span>
+            <span class="price-old">9.450.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 1.165.000đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="KITCHEN" data-price="2490000" data-brand="Toshiba">
+        <div class="card-top">
+          <span class="discount-badge">-24%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/toshiba_rice_cooker.jpg" alt="Nồi Cơm Điện Cao Tần IH Toshiba 1.8L RC-18IP1PV" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Toshiba</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Nồi Cơm Điện Cao Tần IH Toshiba 1.8L RC-18IP1PV">Nồi Cơm Điện Cao Tần IH Toshiba 1.8L RC-18IP1PV</a>
+          </h3>
+          <div class="specs-preview">Công nghệ gia nhiệt cảm ứng IH đa chiều, lòng nồi dày 3mm phủ bột than B...</div>
+          <div class="price-box">
+            <span class="price-current">2.490.000đ</span>
+            <span class="price-old">3.280.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 415.000đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="KITCHEN" data-price="1850000" data-brand="Panasonic">
+        <div class="card-top">
+          <span class="discount-badge">-23%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/panasonic_cp188.jpg" alt="Nồi Cơm Điện Tử Panasonic 1.8L SR-CP188NRA" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Panasonic</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Nồi Cơm Điện Tử Panasonic 1.8L SR-CP188NRA">Nồi Cơm Điện Tử Panasonic 1.8L SR-CP188NRA</a>
+          </h3>
+          <div class="specs-preview">Lòng nồi 6 lớp phủ kim cương chống dính bền bỉ, 16 thực đơn nấu tự động,...</div>
+          <div class="price-box">
+            <span class="price-current">1.850.000đ</span>
+            <span class="price-old">2.400.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 308.333đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="KITCHEN" data-price="3890000" data-brand="Panasonic">
+        <div class="card-top">
+          <span class="discount-badge">-24%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/panasonic_juicer.jpg" alt="Máy Ép Chậm Panasonic PAVH-MJ-L500SRA" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Panasonic</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Máy Ép Chậm Panasonic PAVH-MJ-L500SRA">Máy Ép Chậm Panasonic PAVH-MJ-L500SRA</a>
+          </h3>
+          <div class="specs-preview">Tốc độ ép chậm 45 vòng/phút giữ nguyên enzyme và vitamin, trục vít inox ...</div>
+          <div class="price-box">
+            <span class="price-current">3.890.000đ</span>
+            <span class="price-old">5.120.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 648.333đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="KITCHEN" data-price="1990000" data-brand="Bluestone">
+        <div class="card-top">
+          <span class="discount-badge">-30%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/bluestone_juicer.jpg" alt="Máy Ép Chậm Miệng Rộng Bluestone SJB-6556" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Bluestone</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Máy Ép Chậm Miệng Rộng Bluestone SJB-6556">Máy Ép Chậm Miệng Rộng Bluestone SJB-6556</a>
+          </h3>
+          <div class="specs-preview">Cửa tiếp nguyên liệu 80mm bỏ nguyên quả táo không cần cắt lát, công suất...</div>
+          <div class="price-box">
+            <span class="price-current">1.990.000đ</span>
+            <span class="price-old">2.840.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 331.667đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="KITCHEN" data-price="690000" data-brand="Bear">
+        <div class="card-top">
+          <span class="discount-badge">-30%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/bear_juicer.jpg" alt="Máy Ép Chậm Cầm Tay Mini Bear YZJ-D01G1" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Bear</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Máy Ép Chậm Cầm Tay Mini Bear YZJ-D01G1">Máy Ép Chậm Cầm Tay Mini Bear YZJ-D01G1</a>
+          </h3>
+          <div class="specs-preview">Thiết kế mini mang theo du lịch, tháo lắp vệ sinh chỉ 1 phút, cối lọc kh...</div>
+          <div class="price-box">
+            <span class="price-current">690.000đ</span>
+            <span class="price-old">990.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 115.000đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="CLEANING" data-price="19990000" data-brand="Roborock">
+        <div class="card-top">
+          <span class="discount-badge">-23%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/roborock_s8.png" alt="Robot Hút Bụi Lau Nhà Roborock S8 Pro Ultra" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Roborock</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Robot Hút Bụi Lau Nhà Roborock S8 Pro Ultra">Robot Hút Bụi Lau Nhà Roborock S8 Pro Ultra</a>
+          </h3>
+          <div class="specs-preview">Lực hút khủng 6000Pa, chổi xoay DuoRoller Riser kép chống rối tóc, trạm ...</div>
+          <div class="price-box">
+            <span class="price-current">19.990.000đ</span>
+            <span class="price-old">25.960.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 3.331.667đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="CLEANING" data-price="8990000" data-brand="Xiaomi">
+        <div class="card-top">
+          <span class="discount-badge">-31%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/xiaomi_x10.jpg" alt="Robot Hút Bụi Lau Nhà Xiaomi Robot Vacuum X10+" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Xiaomi</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Robot Hút Bụi Lau Nhà Xiaomi Robot Vacuum X10+">Robot Hút Bụi Lau Nhà Xiaomi Robot Vacuum X10+</a>
+          </h3>
+          <div class="specs-preview">Điều hướng laser LDS 360°, hệ thống tránh chướng ngại vật S-Cross AI 3D,...</div>
+          <div class="price-box">
+            <span class="price-current">8.990.000đ</span>
+            <span class="price-old">13.030.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 1.498.333đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="CLEANING" data-price="7290000" data-brand="Ecovacs Robotics">
+        <div class="card-top">
+          <span class="discount-badge">-27%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/ecovacs_n10.jpg" alt="Robot Hút Bụi Lau Nhà Ecovacs Deebot N10 Plus" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Ecovacs Robotics</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Robot Hút Bụi Lau Nhà Ecovacs Deebot N10 Plus">Robot Hút Bụi Lau Nhà Ecovacs Deebot N10 Plus</a>
+          </h3>
+          <div class="specs-preview">Lực hút 4300Pa mạnh mẽ, màng lọc E11 kháng khuẩn đạt chuẩn y tế, kèm trạ...</div>
+          <div class="price-box">
+            <span class="price-current">7.290.000đ</span>
+            <span class="price-old">9.990.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 1.215.000đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="CLEANING" data-price="16490000" data-brand="Dyson">
+        <div class="card-top">
+          <span class="discount-badge">-21%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/dyson_v12.jpg" alt="Máy Hút Bụi Cầm Tay Không Dây Dyson V12 Detect Slim Total Clean" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Dyson</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Máy Hút Bụi Cầm Tay Không Dây Dyson V12 Detect Slim Total Clean">Máy Hút Bụi Cầm Tay Không Dây Dyson V12 Detect Slim Total Clean</a>
+          </h3>
+          <div class="specs-preview">Động cơ Dyson Hyperdymium 125.000 vòng/phút, đầu hút laser Fluffy chiếu ...</div>
+          <div class="price-box">
+            <span class="price-current">16.490.000đ</span>
+            <span class="price-old">20.870.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 2.748.333đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="CLEANING" data-price="3490000" data-brand="Electrolux">
+        <div class="card-top">
+          <span class="discount-badge">-26%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/electrolux_vacuum.jpg" alt="Máy Hút Bụi Cầm Tay Không Dây Electrolux WQ61-1OGCR" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Electrolux</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Máy Hút Bụi Cầm Tay Không Dây Electrolux WQ61-1OGCR">Máy Hút Bụi Cầm Tay Không Dây Electrolux WQ61-1OGCR</a>
+          </h3>
+          <div class="specs-preview">Thiết kế 2 trong 1 linh hoạt, công nghệ lọc 5 lớp kháng khuẩn 99.9%, đầu...</div>
+          <div class="price-box">
+            <span class="price-current">3.490.000đ</span>
+            <span class="price-old">4.720.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 581.667đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="AIR_WATER" data-price="5690000" data-brand="Daikin">
+        <div class="card-top">
+          <span class="discount-badge">-24%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/daikin_mc55.png" alt="Máy Lọc Không Khí Daikin MC55UVM6" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Daikin</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Máy Lọc Không Khí Daikin MC55UVM6">Máy Lọc Không Khí Daikin MC55UVM6</a>
+          </h3>
+          <div class="specs-preview">Công nghệ Streamer độc quyền phân hủy 99.9% virus và chất gây hại, màng ...</div>
+          <div class="price-box">
+            <span class="price-current">5.690.000đ</span>
+            <span class="price-old">7.490.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 948.333đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="AIR_WATER" data-price="4890000" data-brand="Sharp">
+        <div class="card-top">
+          <span class="discount-badge">-25%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/sharp_fpj60.jpg" alt="Máy Lọc Không Khí Sharp FP-J60E-W" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Sharp</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Máy Lọc Không Khí Sharp FP-J60E-W">Máy Lọc Không Khí Sharp FP-J60E-W</a>
+          </h3>
+          <div class="specs-preview">Mật độ Plasmacluster Ion cực cao 25.000 ion/cm³, diện tích lọc 48m², chế...</div>
+          <div class="price-box">
+            <span class="price-current">4.890.000đ</span>
+            <span class="price-old">6.520.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 815.000đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="AIR_WATER" data-price="7990000" data-brand="Coway">
+        <div class="card-top">
+          <span class="discount-badge">-24%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/coway_ap1008.png" alt="Máy Lọc Không Khí Coway AP-1008DH" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Coway</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Máy Lọc Không Khí Coway AP-1008DH">Máy Lọc Không Khí Coway AP-1008DH</a>
+          </h3>
+          <div class="specs-preview">Thiết kế ốp da sang trọng đạt giải thưởng Red Dot, hệ thống màng lọc 4 b...</div>
+          <div class="price-box">
+            <span class="price-current">7.990.000đ</span>
+            <span class="price-old">10.510.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 1.331.667đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="AIR_WATER" data-price="6490000" data-brand="Kangaroo">
+        <div class="card-top">
+          <span class="discount-badge">-28%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/kangaroo_water.jpg" alt="Máy Lọc Nước Nóng Nguội Lạnh Kangaroo Hydrogen KG10A3" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Kangaroo</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Máy Lọc Nước Nóng Nguội Lạnh Kangaroo Hydrogen KG10A3">Máy Lọc Nước Nóng Nguội Lạnh Kangaroo Hydrogen KG10A3</a>
+          </h3>
+          <div class="specs-preview">10 cấp lọc bổ sung Hydrogen chống oxy hóa tế bào, 2 vòi 3 chế độ Nóng - ...</div>
+          <div class="price-box">
+            <span class="price-current">6.490.000đ</span>
+            <span class="price-old">9.010.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 1.081.667đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="AIR_WATER" data-price="3190000" data-brand="Xiaomi">
+        <div class="card-top">
+          <span class="discount-badge">-26%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/xiaomi_water.jpg" alt="Máy Lọc Nước RO Để Bàn Xiaomi Mijia C1" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Xiaomi</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Máy Lọc Nước RO Để Bàn Xiaomi Mijia C1">Máy Lọc Nước RO Để Bàn Xiaomi Mijia C1</a>
+          </h3>
+          <div class="specs-preview">Thiết kế để bàn sang trọng không cần nối đường ống, đun sôi nước tức thì...</div>
+          <div class="price-box">
+            <span class="price-current">3.190.000đ</span>
+            <span class="price-old">4.310.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 531.667đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="AIR_WATER" data-price="15990000" data-brand="Coway">
+        <div class="card-top">
+          <span class="discount-badge">-20%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/coway_water.png" alt="Máy Lọc Nước Nóng Lạnh Cao Cấp Coway Ombak CHP-7310R" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Coway</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Máy Lọc Nước Nóng Lạnh Cao Cấp Coway Ombak CHP-7310R">Máy Lọc Nước Nóng Lạnh Cao Cấp Coway Ombak CHP-7310R</a>
+          </h3>
+          <div class="specs-preview">50 lựa chọn nhiệt độ và dung tích nước chỉ với một nút vặn, công nghệ ti...</div>
+          <div class="price-box">
+            <span class="price-current">15.990.000đ</span>
+            <span class="price-old">19.990.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 2.665.000đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="UTENSILS" data-price="1490000" data-brand="Elmich">
+        <div class="card-top">
+          <span class="discount-badge">-31%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/elmich_cookware.jpg" alt="Bộ Nồi Chảo Inox 304 Cao Cấp Elmich Smartcook SM-3336 4 Món" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Elmich</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Bộ Nồi Chảo Inox 304 Cao Cấp Elmich Smartcook SM-3336 4 Món">Bộ Nồi Chảo Inox 304 Cao Cấp Elmich Smartcook SM-3336 4 Món</a>
+          </h3>
+          <div class="specs-preview">Chất liệu Inox 304 cao cấp chuẩn Châu Âu, đáy 3 lớp đúc liền khối bắt từ...</div>
+          <div class="price-box">
+            <span class="price-current">1.490.000đ</span>
+            <span class="price-old">2.160.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 248.333đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="UTENSILS" data-price="990000" data-brand="Lock&amp;Lock">
+        <div class="card-top">
+          <span class="discount-badge">-36%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/locknlock_cookware.jpg" alt="Bộ Nồi Chảo Chống Dính Lock&amp;Lock Deco 3 Món LDE1202" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Lock&amp;Lock</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Bộ Nồi Chảo Chống Dính Lock&amp;Lock Deco 3 Món LDE1202">Bộ Nồi Chảo Chống Dính Lock&amp;Lock Deco 3 Món LDE1202</a>
+          </h3>
+          <div class="specs-preview">Thiết kế tone màu pastel hiện đại, lớp phủ gốm Titanium Ceramic an toàn ...</div>
+          <div class="price-box">
+            <span class="price-current">990.000đ</span>
+            <span class="price-old">1.550.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 165.000đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="SMART_HOME" data-price="12890000" data-brand="Kaadas">
+        <div class="card-top">
+          <span class="discount-badge">-22%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/kaadas_k20.jpg" alt="Khóa Cửa Thông Minh Nhận Diện Gương Mặt 3D Kaadas K20 Pro" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Kaadas</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Khóa Cửa Thông Minh Nhận Diện Gương Mặt 3D Kaadas K20 Pro">Khóa Cửa Thông Minh Nhận Diện Gương Mặt 3D Kaadas K20 Pro</a>
+          </h3>
+          <div class="specs-preview">Nhận diện khuôn mặt 3D Face ID chuẩn xác ngay cả trong bóng tối, chuông ...</div>
+          <div class="price-box">
+            <span class="price-current">12.890.000đ</span>
+            <span class="price-old">16.530.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 2.148.333đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="SMART_HOME" data-price="10490000" data-brand="Hafele">
+        <div class="card-top">
+          <span class="discount-badge">-25%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/hafele_lock.jpg" alt="Khóa Cửa Điện Tử Vân Tay Hafele EL9000-TCS (912.05.364)" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Hafele</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Khóa Cửa Điện Tử Vân Tay Hafele EL9000-TCS (912.05.364)">Khóa Cửa Điện Tử Vân Tay Hafele EL9000-TCS (912.05.364)</a>
+          </h3>
+          <div class="specs-preview">Nhận diện vân tay quang học độ nhạy cao, chức năng mã số ảo chống nhìn t...</div>
+          <div class="price-box">
+            <span class="price-current">10.490.000đ</span>
+            <span class="price-old">13.990.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 1.748.333đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+      <article class="product-card" data-category="KITCHEN" data-price="1200000" data-brand="Philips">
+        <div class="card-top">
+          <span class="discount-badge">-15%</span>
+          <span class="installment-badge">Trả góp 0%</span>
+          <a href="product-detail.html">
+            <img src="assets/images/smart_lock.jpg" alt="Khóa Cửa Thông Minh Vân Tay Tay Gạt Xiaomi Smart Door Lock E10" class="product-thumb" onerror="this.src='assets/images/air_fryer.jpg'">
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="brand-tag">Philips</div>
+          <h3 class="product-name">
+            <a href="product-detail.html" title="Khóa Cửa Thông Minh Vân Tay Tay Gạt Xiaomi Smart Door Lock E10">Khóa Cửa Thông Minh Vân Tay Tay Gạt Xiaomi Smart Door Lock E10</a>
+          </h3>
+          <div class="specs-preview"></div>
+          <div class="price-box">
+            <span class="price-current">1.200.000đ</span>
+            <span class="price-old">1.410.000đ</span>
+          </div>
+          <div class="installment-note">Góp 0% chỉ từ 200.000đ/tháng</div>
+        </div>
+        <div class="card-actions">
+          <a href="product-detail.html" class="btn-buy-now">Xem Chi Tiết</a>
+          <a href="cart.html" class="btn-add-cart" title="Thêm vào giỏ">🛒</a>
+        </div>
+      </article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="main-footer">
+    <div class="container footer-content">
+      <div class="footer-col">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+          <div style="background: #d70018; color: #fff; width: 30px; height: 30px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 16px;">M</div>
+          <h3 style="color: #0f172a; margin: 0; font-size: 18px; font-weight: 900;">MINH STORE</h3>
+        </div>
+        <p style="font-size: 13px; color: #64748b; line-height: 1.6; margin-bottom: 12px;">
+          Hệ thống bán lẻ thiết bị đồ gia dụng thông minh chính hãng hàng đầu Việt Nam. Cam kết 100% nguyên seal, bảo hành chính hãng tại nhà.
+        </p>
+        <ul style="font-size: 12.5px; color: #475569; display: flex; flex-direction: column; gap: 6px;">
+          <li>📍 Địa chỉ 1: 104 Nguyễn Văn Trỗi, P. Phú Nhuận, TP.HCM</li>
+          <li>📍 Địa chỉ 2: 18A/1 Cộng Hòa, P. Tân Bình, TP.HCM</li>
+          <li>📞 Hotline tư vấn: <strong style="color: #d70018;">0338.677.377</strong></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Thông Tin & Hỗ Trợ</h4>
+        <ul>
+          <li><a href="index.html">Giới thiệu Minh Store</a></li>
+          <li><a href="product-detail.html">Chính sách bảo hành 24 tháng</a></li>
+          <li><a href="cart.html">Chính sách giao hàng hỏa tốc 2H</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Thanh Toán & Trả Góp</h4>
+        <ul>
+          <li><a href="javascript:void(0)">Hướng dẫn mua hàng online</a></li>
+          <li><a href="javascript:void(0)">Chính sách trả góp 0% qua thẻ</a></li>
+          <li><a href="javascript:void(0)">Hóa đơn điện tử VAT trực tiếp</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container" style="display: flex; justify-content: space-between; font-size: 12px; color: #94a3b8;">
+        <div>© 2026 Minh Store - MiniShop Management System. Nhóm 04 - Báo Cáo Web.</div>
+        <div>Học Viện Hàng Không Việt Nam</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function filterProducts() {
+      var selectedCat = document.querySelector('input[name="cat_filter"]:checked').value;
+      var selectedPrice = document.querySelector('input[name="price_range"]:checked').value;
+      var checkedBrands = Array.from(document.querySelectorAll('.brand-filter-cb:checked')).map(cb => cb.value);
+
+      var cards = document.querySelectorAll('.product-card');
+      var visible = 0;
+
+      cards.forEach(function(card) {
+        var cat = card.getAttribute('data-category');
+        var price = parseFloat(card.getAttribute('data-price'));
+        var brand = card.getAttribute('data-brand');
+
+        var matchCat = (selectedCat === 'ALL' || cat === selectedCat);
+        var matchPrice = true;
+        if (selectedPrice === 'under_1m') matchPrice = (price < 1000000);
+        else if (selectedPrice === '1m_3m') matchPrice = (price >= 1000000 && price <= 3000000);
+        else if (selectedPrice === '3m_7m') matchPrice = (price > 3000000 && price <= 7000000);
+        else if (selectedPrice === 'above_7m') matchPrice = (price > 7000000);
+
+        var matchBrand = (checkedBrands.length === 0 || checkedBrands.includes(brand));
+
+        if (matchCat && matchPrice && matchBrand) {
+          card.style.display = '';
+          visible++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      document.getElementById('visibleCount').innerText = visible;
+    }
+
+    document.querySelectorAll('input[name="cat_filter"], input[name="price_range"], .brand-filter-cb').forEach(function(el) {
+      el.addEventListener('change', filterProducts);
+    });
+
+    function applySorting() {
+      var sortType = document.getElementById('sortSelect').value;
+      var grid = document.getElementById('productsGrid');
+      var cards = Array.from(grid.querySelectorAll('.product-card'));
+
+      cards.sort(function(a, b) {
+        var priceA = parseFloat(a.getAttribute('data-price'));
+        var priceB = parseFloat(b.getAttribute('data-price'));
+        var nameA = a.querySelector('.product-name a').innerText.trim();
+        var nameB = b.querySelector('.product-name a').innerText.trim();
+
+        if (sortType === 'price_asc') return priceA - priceB;
+        if (sortType === 'price_desc') return priceB - priceA;
+        if (sortType === 'name_asc') return nameA.localeCompare(nameB);
+        return 0;
+      });
+
+      cards.forEach(card => grid.appendChild(card));
+    }
+  </script>
+</body>
+</html>

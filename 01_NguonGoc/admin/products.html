@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý Sản Phẩm - Quản Trị Minh Store ERP</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    body { font-family: "Segoe UI", sans-serif; margin: 0; padding: 0; background: #f4f6f9; }
+    .admin-header-bar { background: #991b1b; color: #fff; padding: 14px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+    .admin-header-bar a { color: #fee2e2; text-decoration: none; font-size: 13px; padding: 6px 12px; border-radius: 6px; background: rgba(255,255,255,0.1); }
+    .admin-header-bar a:hover { background: rgba(255,255,255,0.2); color: #fff; }
+    .admin-layout { display: flex; min-height: calc(100vh - 60px); background: #f4f6f9; }
+    .admin-sidebar { width: 250px; background: #343a40; color: #f1f5f9; flex-shrink: 0; padding: 20px 0; }
+    .admin-sidebar .sidebar-title { padding: 0 20px 15px; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; font-weight: 700; border-bottom: 1px solid #4b545c; margin-bottom: 15px; }
+    .admin-sidebar a { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: #c2c7d0; text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.2s; border-left: 3px solid transparent; }
+    .admin-sidebar a:hover, .admin-sidebar a.active { background: #007bff; color: #fff; border-left-color: #ffffff; }
+    .admin-main { flex: 1; padding: 25px 30px; overflow-x: auto; }
+    .card { background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); padding: 22px; margin-bottom: 24px; border: 1px solid #e2e8f0; }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9; }
+    .card-title { font-size: 17px; font-weight: 700; color: #1e293b; }
+    .table-custom { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    .table-custom th { background: #f8fafc; color: #475569; font-weight: 700; padding: 12px 14px; text-align: left; border-bottom: 2px solid #e2e8f0; }
+    .table-custom td { padding: 12px 14px; border-bottom: 1px solid #f1f5f9; color: #334155; vertical-align: middle; }
+    .table-custom tr:hover { background: #fafafa; }
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+    .badge-success { background: #dcfce7; color: #15803d; }
+    .badge-warning { background: #fef3c7; color: #b45309; }
+    .badge-danger { background: #fee2e2; color: #b91c1c; }
+    .badge-info { background: #e0f2fe; color: #0369a1; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 700; color: #475569; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13.5px; box-sizing: border-box; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #007bff; outline: none; }
+    .btn-admin { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 6px; font-weight: 700; font-size: 13px; text-decoration: none; border: none; cursor: pointer; }
+    .btn-admin-primary { background: #007bff; color: #fff; }
+    .btn-admin-success { background: #16a34a; color: #fff; }
+    .btn-admin-danger { background: #ef4444; color: #fff; }
+    .btn-admin-secondary { background: #64748b; color: #fff; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-bottom: 24px; }
+    .stat-card { background: #fff; border-radius: 10px; padding: 20px; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; }
+    .stat-val { font-size: 24px; font-weight: 800; color: #0f172a; margin-top: 4px; }
+    .stat-label { font-size: 12.5px; color: #64748b; font-weight: 600; text-transform: uppercase; }
+  </style>
+</head>
+<body>
+  <header class="admin-header-bar">
+    <div style="display: flex; align-items: center; gap: 15px;">
+      <a href="dashboard.html" style="background: none; padding: 0; font-size: 19px; font-weight: 800; color: #fff;">
+        ⚡ MINH STORE ERP
+      </a>
+      <span style="background: #b91c1c; padding: 2px 8px; border-radius: 4px; font-size: 11px; text-transform: uppercase;">Quản Trị Hệ Thống</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 15px;">
+      <span style="font-size: 13px;">Đang trực: <strong>Trần Anh Minh (Admin / Nhóm 04)</strong></span>
+      <a href="../index.html" target="_blank">🌐 Xem Cửa Hàng</a>
+      <a href="../login.html">🚪 Đăng Xuất</a>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-title">Bảng Điều Khiển</div>
+      <a href="dashboard.html" class="">
+        📊 1. Tổng Quan (Dashboard)
+      </a>
+      <a href="products.html" class="active">
+        🏷️ 2. Quản Lý Sản Phẩm
+      </a>
+      <a href="product-form.html" class="">
+        ➕ 3. Thêm Mới Sản Phẩm
+      </a>
+      <a href="categories.html" class="">
+        📁 4. Quản Lý Danh Mục
+      </a>
+      <a href="category-form.html" class="">
+        ➕ 5. Thêm/Sửa Danh Mục
+      </a>
+      <a href="brands.html" class="">
+        🏢 6. Thương Hiệu & NCC
+      </a>
+      <a href="brand-form.html" class="">
+        ➕ 7. Thêm/Sửa Thương Hiệu
+      </a>
+      <a href="orders.html" class="">
+        🛒 8. Quản Lý Đơn Hàng
+      </a>
+    </aside>
+
+    <main class="admin-main">
+      
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">Danh Sách Mặt Hàng Gia Dụng Trong Kho (38)</div>
+    <a href="product-form.html" class="btn-admin btn-admin-success">➕ Thêm Mặt Hàng Mới</a>
+  </div>
+  <table class="table-custom">
+    <thead>
+      <tr>
+        <th>Mã</th>
+        <th>Hình Ảnh</th>
+        <th>Tên Mặt Hàng</th>
+        <th>Danh Mục</th>
+        <th>Thương Hiệu</th>
+        <th>Giá Bán</th>
+        <th>Tồn Kho</th>
+        <th>Hành Động</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>#1</td>
+        <td><img src="../assets/images/air_fryer.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Nồi Chiên Không Dầu Philips XXL 7.2L HD9280</strong></td>
+        <td><span class="badge badge-info">Thiết Bị Nhà Bếp</span></td>
+        <td>Philips</td>
+        <td><strong style="color:#d70018;">2.890.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #1?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#2</td>
+        <td><img src="../assets/images/robot_vacuum.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Robot Hút Bụi Lau Nhà Ecovacs Deebot T20 Omni</strong></td>
+        <td><span class="badge badge-info">Chăm Sóc &amp; Vệ Sinh</span></td>
+        <td>Ecovacs Robotics</td>
+        <td><strong style="color:#d70018;">11.490.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #2?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#3</td>
+        <td><img src="../assets/images/air_purifier.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Máy Lọc Không Khí Xiaomi Smart Air Purifier 4 Pro</strong></td>
+        <td><span class="badge badge-info">Lọc Khí &amp; Lọc Nước</span></td>
+        <td>Xiaomi</td>
+        <td><strong style="color:#d70018;">4.190.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #3?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#4</td>
+        <td><img src="../assets/images/induction_cooker.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Bếp Từ Đôi Cảm Ứng Inverter Sunhouse Mama MMB9100VE</strong></td>
+        <td><span class="badge badge-info">Thiết Bị Nhà Bếp</span></td>
+        <td>Sunhouse Mama</td>
+        <td><strong style="color:#d70018;">5.490.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #4?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#5</td>
+        <td><img src="../assets/images/slow_juicer.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Máy Ép Chậm Trái Cây &amp; Hoa Quả Kuvings Cold-Press C7000</strong></td>
+        <td><span class="badge badge-info">Thiết Bị Nhà Bếp</span></td>
+        <td>Philips</td>
+        <td><strong style="color:#d70018;">5.990.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #5?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#6</td>
+        <td><img src="../assets/images/water_purifier.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Máy Lọc Nước RO Hydrogen 10 Lõi Philips AUT3015</strong></td>
+        <td><span class="badge badge-info">Lọc Khí &amp; Lọc Nước</span></td>
+        <td>Philips</td>
+        <td><strong style="color:#d70018;">6.890.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #6?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#7</td>
+        <td><img src="../assets/images/cookware_set.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Bộ Nồi Chảo Inox 304 Cao Cấp 5 Món Tefal Ingenio Emotion</strong></td>
+        <td><span class="badge badge-info">Dụng Cụ Nhà Bếp</span></td>
+        <td>Tefal</td>
+        <td><strong style="color:#d70018;">2.690.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #7?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#8</td>
+        <td><img src="../assets/images/smart_lock.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Khóa Cửa Điện Tử Thông Minh Nhận Diện Khuôn Mặt Xiaomi Face ID X</strong></td>
+        <td><span class="badge badge-info">Gia Dụng Thông Minh</span></td>
+        <td>Xiaomi</td>
+        <td><strong style="color:#d70018;">7.490.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #8?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#9</td>
+        <td><img src="../assets/images/rice_cooker.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Nồi Cơm Điện Cao Tần IH Thông Minh Zojirushi Takumi 1.8L</strong></td>
+        <td><span class="badge badge-info">Thiết Bị Nhà Bếp</span></td>
+        <td>Philips</td>
+        <td><strong style="color:#d70018;">4.990.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #9?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#11</td>
+        <td><img src="../assets/images/locknlock_ejf357.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Nồi Chiên Không Dầu Điện Tử Lock&amp;Lock 5.2L EJF357BLK</strong></td>
+        <td><span class="badge badge-info">Thiết Bị Nhà Bếp</span></td>
+        <td>Lock&amp;Lock</td>
+        <td><strong style="color:#d70018;">1.890.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #11?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#12</td>
+        <td><img src="../assets/images/tefal_fw201815.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Nồi Chiên Không Dầu Hơi Nước Tefal Steam Airfryer 3in1 FW201815</strong></td>
+        <td><span class="badge badge-info">Thiết Bị Nhà Bếp</span></td>
+        <td>Tefal</td>
+        <td><strong style="color:#d70018;">3.990.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #12?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#13</td>
+        <td><img src="../assets/images/sunhouse_shd4086.png" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Nồi Chiên Không Dầu Sunhouse Mama 6.0L SHD4086</strong></td>
+        <td><span class="badge badge-info">Thiết Bị Nhà Bếp</span></td>
+        <td>Sunhouse Mama</td>
+        <td><strong style="color:#d70018;">1.290.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #13?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#14</td>
+        <td><img src="../assets/images/bear_airfryer.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Nồi Chiên Không Dầu Mini Bear 3.5L QZG-E12H1</strong></td>
+        <td><span class="badge badge-info">Thiết Bị Nhà Bếp</span></td>
+        <td>Bear</td>
+        <td><strong style="color:#d70018;">790.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #14?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#15</td>
+        <td><img src="../assets/images/hafele_induction.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Bếp Từ Đôi Cảm Ứng Hafele HC-I2732A (536.04.244)</strong></td>
+        <td><span class="badge badge-info">Thiết Bị Nhà Bếp</span></td>
+        <td>Hafele</td>
+        <td><strong style="color:#d70018;">8.490.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #15?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#16</td>
+        <td><img src="../assets/images/kangaroo_kg851i.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Bếp Từ Đôi Inverter Kangaroo KG851i</strong></td>
+        <td><span class="badge badge-info">Thiết Bị Nhà Bếp</span></td>
+        <td>Kangaroo</td>
+        <td><strong style="color:#d70018;">3.490.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #16?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#17</td>
+        <td><img src="../assets/images/bluestone_induction.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Bếp Từ Đơn Cảm Ứng Siêu Mỏng Bluestone ICB-6818</strong></td>
+        <td><span class="badge badge-info">Thiết Bị Nhà Bếp</span></td>
+        <td>Bluestone</td>
+        <td><strong style="color:#d70018;">1.150.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #17?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#18</td>
+        <td><img src="../assets/images/cuckoo_rice_cooker.png" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Nồi Cơm Điện Cao Tần Cuckoo 1.08L CRP-LHTR0610FW</strong></td>
+        <td><span class="badge badge-info">Thiết Bị Nhà Bếp</span></td>
+        <td>Cuckoo</td>
+        <td><strong style="color:#d70018;">6.990.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #18?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#19</td>
+        <td><img src="../assets/images/toshiba_rice_cooker.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Nồi Cơm Điện Cao Tần IH Toshiba 1.8L RC-18IP1PV</strong></td>
+        <td><span class="badge badge-info">Thiết Bị Nhà Bếp</span></td>
+        <td>Toshiba</td>
+        <td><strong style="color:#d70018;">2.490.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #19?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#20</td>
+        <td><img src="../assets/images/panasonic_cp188.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Nồi Cơm Điện Tử Panasonic 1.8L SR-CP188NRA</strong></td>
+        <td><span class="badge badge-info">Thiết Bị Nhà Bếp</span></td>
+        <td>Panasonic</td>
+        <td><strong style="color:#d70018;">1.850.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #20?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#21</td>
+        <td><img src="../assets/images/panasonic_juicer.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Máy Ép Chậm Panasonic PAVH-MJ-L500SRA</strong></td>
+        <td><span class="badge badge-info">Thiết Bị Nhà Bếp</span></td>
+        <td>Panasonic</td>
+        <td><strong style="color:#d70018;">3.890.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #21?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#22</td>
+        <td><img src="../assets/images/bluestone_juicer.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Máy Ép Chậm Miệng Rộng Bluestone SJB-6556</strong></td>
+        <td><span class="badge badge-info">Thiết Bị Nhà Bếp</span></td>
+        <td>Bluestone</td>
+        <td><strong style="color:#d70018;">1.990.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #22?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#23</td>
+        <td><img src="../assets/images/bear_juicer.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Máy Ép Chậm Cầm Tay Mini Bear YZJ-D01G1</strong></td>
+        <td><span class="badge badge-info">Thiết Bị Nhà Bếp</span></td>
+        <td>Bear</td>
+        <td><strong style="color:#d70018;">690.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #23?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#24</td>
+        <td><img src="../assets/images/roborock_s8.png" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Robot Hút Bụi Lau Nhà Roborock S8 Pro Ultra</strong></td>
+        <td><span class="badge badge-info">Chăm Sóc &amp; Vệ Sinh</span></td>
+        <td>Roborock</td>
+        <td><strong style="color:#d70018;">19.990.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #24?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#25</td>
+        <td><img src="../assets/images/xiaomi_x10.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Robot Hút Bụi Lau Nhà Xiaomi Robot Vacuum X10+</strong></td>
+        <td><span class="badge badge-info">Chăm Sóc &amp; Vệ Sinh</span></td>
+        <td>Xiaomi</td>
+        <td><strong style="color:#d70018;">8.990.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #25?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#26</td>
+        <td><img src="../assets/images/ecovacs_n10.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Robot Hút Bụi Lau Nhà Ecovacs Deebot N10 Plus</strong></td>
+        <td><span class="badge badge-info">Chăm Sóc &amp; Vệ Sinh</span></td>
+        <td>Ecovacs Robotics</td>
+        <td><strong style="color:#d70018;">7.290.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #26?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#27</td>
+        <td><img src="../assets/images/dyson_v12.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Máy Hút Bụi Cầm Tay Không Dây Dyson V12 Detect Slim Total Clean</strong></td>
+        <td><span class="badge badge-info">Chăm Sóc &amp; Vệ Sinh</span></td>
+        <td>Dyson</td>
+        <td><strong style="color:#d70018;">16.490.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #27?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#28</td>
+        <td><img src="../assets/images/electrolux_vacuum.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Máy Hút Bụi Cầm Tay Không Dây Electrolux WQ61-1OGCR</strong></td>
+        <td><span class="badge badge-info">Chăm Sóc &amp; Vệ Sinh</span></td>
+        <td>Electrolux</td>
+        <td><strong style="color:#d70018;">3.490.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #28?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#29</td>
+        <td><img src="../assets/images/daikin_mc55.png" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Máy Lọc Không Khí Daikin MC55UVM6</strong></td>
+        <td><span class="badge badge-info">Lọc Khí &amp; Lọc Nước</span></td>
+        <td>Daikin</td>
+        <td><strong style="color:#d70018;">5.690.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #29?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#30</td>
+        <td><img src="../assets/images/sharp_fpj60.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Máy Lọc Không Khí Sharp FP-J60E-W</strong></td>
+        <td><span class="badge badge-info">Lọc Khí &amp; Lọc Nước</span></td>
+        <td>Sharp</td>
+        <td><strong style="color:#d70018;">4.890.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #30?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#31</td>
+        <td><img src="../assets/images/coway_ap1008.png" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Máy Lọc Không Khí Coway AP-1008DH</strong></td>
+        <td><span class="badge badge-info">Lọc Khí &amp; Lọc Nước</span></td>
+        <td>Coway</td>
+        <td><strong style="color:#d70018;">7.990.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #31?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#32</td>
+        <td><img src="../assets/images/kangaroo_water.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Máy Lọc Nước Nóng Nguội Lạnh Kangaroo Hydrogen KG10A3</strong></td>
+        <td><span class="badge badge-info">Lọc Khí &amp; Lọc Nước</span></td>
+        <td>Kangaroo</td>
+        <td><strong style="color:#d70018;">6.490.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #32?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#33</td>
+        <td><img src="../assets/images/xiaomi_water.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Máy Lọc Nước RO Để Bàn Xiaomi Mijia C1</strong></td>
+        <td><span class="badge badge-info">Lọc Khí &amp; Lọc Nước</span></td>
+        <td>Xiaomi</td>
+        <td><strong style="color:#d70018;">3.190.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #33?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#34</td>
+        <td><img src="../assets/images/coway_water.png" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Máy Lọc Nước Nóng Lạnh Cao Cấp Coway Ombak CHP-7310R</strong></td>
+        <td><span class="badge badge-info">Lọc Khí &amp; Lọc Nước</span></td>
+        <td>Coway</td>
+        <td><strong style="color:#d70018;">15.990.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #34?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#35</td>
+        <td><img src="../assets/images/elmich_cookware.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Bộ Nồi Chảo Inox 304 Cao Cấp Elmich Smartcook SM-3336 4 Món</strong></td>
+        <td><span class="badge badge-info">Dụng Cụ Nhà Bếp</span></td>
+        <td>Elmich</td>
+        <td><strong style="color:#d70018;">1.490.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #35?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#36</td>
+        <td><img src="../assets/images/locknlock_cookware.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Bộ Nồi Chảo Chống Dính Lock&amp;Lock Deco 3 Món LDE1202</strong></td>
+        <td><span class="badge badge-info">Dụng Cụ Nhà Bếp</span></td>
+        <td>Lock&amp;Lock</td>
+        <td><strong style="color:#d70018;">990.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #36?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#38</td>
+        <td><img src="../assets/images/kaadas_k20.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Khóa Cửa Thông Minh Nhận Diện Gương Mặt 3D Kaadas K20 Pro</strong></td>
+        <td><span class="badge badge-info">Gia Dụng Thông Minh</span></td>
+        <td>Kaadas</td>
+        <td><strong style="color:#d70018;">12.890.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #38?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#39</td>
+        <td><img src="../assets/images/hafele_lock.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Khóa Cửa Điện Tử Vân Tay Hafele EL9000-TCS (912.05.364)</strong></td>
+        <td><span class="badge badge-info">Gia Dụng Thông Minh</span></td>
+        <td>Hafele</td>
+        <td><strong style="color:#d70018;">10.490.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #39?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+      <tr>
+        <td>#41</td>
+        <td><img src="../assets/images/smart_lock.jpg" width="45" height="45" style="object-fit:cover; border-radius:4px;" onerror="this.src='../assets/images/air_fryer.jpg'"></td>
+        <td><strong>Khóa Cửa Thông Minh Vân Tay Tay Gạt Xiaomi Smart Door Lock E10</strong></td>
+        <td><span class="badge badge-info">Thiết Bị Nhà Bếp</span></td>
+        <td>Philips</td>
+        <td><strong style="color:#d70018;">1.200.000₫</strong></td>
+        <td><strong>50</strong></td>
+        <td>
+          <a href="product-form.html" class="btn-admin btn-admin-primary" style="font-size: 11px; padding: 4px 8px;">Sửa</a>
+          <button onclick="confirm('Xác nhận xóa sản phẩm #41?');" class="btn-admin btn-admin-danger" style="font-size: 11px; padding: 4px 8px;">Xóa</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+    </main>
+  </div>
+</body>
+</html>
